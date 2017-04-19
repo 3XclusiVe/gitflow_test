@@ -4,11 +4,6 @@
 
 #include "CalculateTrendParameters.h"
 
-#include "Constants.h"
-#include "MathUtils.h"
-#include <algorithm>
-#include <numeric>
-#include "LinearTrend.h"
 
 void addToTheEndOfArrayAndShift(int *array, int size, int valueToAdd);
 void addToTheEndOfArrayAndShift(float *array, int size, float valueToAdd);
