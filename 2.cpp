@@ -8,8 +8,7 @@
 #include "MathUtils.h"
 #include <algorithm>
 #include <numeric>
-#include "LinearTrend.h"
-
+#
 void addToTheEndOfArrayAndShift(int *array, int size, int valueToAdd);
 void addToTheEndOfArrayAndShift(float *array, int size, float valueToAdd);
 
@@ -95,41 +94,7 @@ TrendParameters CalculateTrendParameters(
     int kLoseOtherMax = NumberOfOpticCalculationsInSecond * 2;
     int kLoseOtherMaxForLowSpeed = NumberOfOpticCalculationsInSecond * 6;
 
-    bool goodVoptic = false;
-    if (CHC2) {
-        //TODO Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð²ÐµÑ‚ÐºÑƒ
-        //goodVoptic =
-
-    } else {
-
-        goodVoptic = ((Voptic != 0)
-                && (((std::abs(Voptic - V_middle_bigFFT) < CurrentRangeForVal)
-                        && (std::abs(V_middle_bigFFT) < 50)
-                        && (std::abs(V_middle_bigFFT) > minSpeedForOptical))
-                        || ((std::abs(Voptic - V_middle_bigFFT)
-                                < (PartOfAllowed * std::abs(V_middle_bigFFT)))
-                                && (std::abs(V_middle_bigFFT) > 50))))
-                || ((Voptic == 0)
-                        && (std::abs(V_middle_bigFFT) < CurrentRangeForZero));
-    }
-
-    if (goodVoptic) {
-        if (CHC7) {
-
-        } else {
-            // Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÑÐµÐ¼ Ð¾ÑˆÐ¸Ð±ÐºÑƒ Ð² ShiftOther
-            addToTheEndOfArrayAndShift(
-                    ShiftOther, ShiftOtherArraySize,
-                    (Voptic - V_middle_bigFFT));
-        }
-
-        float NewCurrentRangeForZero;
-        if (CHC3) {
-            NewCurrentRangeForZero = 2.5f;
-        } else {
-            NewCurrentRangeForZero = CurrentRangeForZero;
-        }
-
+    b
         float ShiftOtherMean = math::mean(ShiftOther, ShiftOtherArraySize);
         bool errorIsBig = ((std::abs(ShiftOtherMean) > maxShiftOther)
                 && (std::abs(V_middle_bigFFT) > NewCurrentRangeForZero));
@@ -141,22 +106,6 @@ TrendParameters CalculateTrendParameters(
             AlphaAdd = 0;
         }
 
-        if (std::abs(V_middle_bigFFT) < CurrentRangeForZero) {
-            currentTrendParametrs.alpha = (0.07f + kLoseZero / 1000.0)
-                    + AlphaAdd;
-        } else {
-            currentTrendParametrs.alpha = (AlphaTypeConst + kLoseZero / 1000.0)
-                    + AlphaAdd;
-        }
-        currentTrendParametrs.alpha1 = LinearTrend::calculateAlpha1(
-                currentTrendParametrs.alpha);
-
-        addToTheEndOfArrayAndShift(ErrorZero, ErrorZeroArraySize, 0);
-        addToTheEndOfArrayAndShift(ErrorOther, ErrorOtherArraySize, 0);
-        kLoseZero = 0;
-        kLoseOther = 0;
-    } else if ((Voptic == 0) || ((Health < 0.5f) && CHC5)) {
-        /// ÐžÑˆÐ¸Ð±ÐºÐ° ÑÐ±Ñ€Ð¾Ñ Ð² Ð½Ð¾Ð»ÑŒ
         /// TODO Ð¾Ñ‚Ñ€ÐµÑ„Ð°ÐºÑ‚Ð¾Ñ€Ð¸Ñ‚ÑŒ
         currentTrendParametrs.alpha = 0;
         currentTrendParametrs.alpha1 = 0;
